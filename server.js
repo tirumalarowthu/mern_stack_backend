@@ -39,7 +39,13 @@ app.use("/api/message", messageRoutes);
   });
 
 // --------------------------deployment------------------------------
-
+app.use(function (req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "X-Requested-With");
+  res.header("Access-Control-Allow-Headers", "Content-Type");
+  res.header("Access-Control-Allow-Methods", "PUT, GET, POST, DELETE, OPTIONS");
+  next();
+});
 // Error Handling middlewares
 app.use(notFound);
 app.use(errorHandler);
@@ -54,10 +60,11 @@ const server = app.listen(
 const io = require("socket.io")(server, {
   pingTimeout: 60000,
   cors: {
-    origin: "http://localhost:3000",
+    origin: "https://bejewelled-churros-2bbc34.netlify.app",
     // credentials: true,
   },
 });
+
 
 io.on("connection", (socket) => {
   console.log("Connected to socket.io");
